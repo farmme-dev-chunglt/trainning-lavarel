@@ -16,12 +16,6 @@ class Product extends Model
         'discount',
         'imgUrl',
     ];
-    protected function discount(): Attribute
-    {
-        return new Attribute(
-            set: fn ($value) => $value * 2,
-        );
-    }
     use HasFactory;
 
     public function getDiscounts()

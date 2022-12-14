@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
+
 class ProductController extends Controller
 {
     /**
@@ -16,38 +17,37 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::get();
         $product = Product::paginate(5);
-        return view('product.index',[
-            'product' => $product, 
+        return view('product.index', [
+            'product' => $product,
         ]);
     }
     public function softDestroy(Product $product)
     {
-        $product ->delete();
+        $product->delete();
         return redirect()->route('product.index');
     }
     public function trash()
     {
         $product = Product::withTrashed()
-                            ->whereNotNull('deleted_at')
-                            ->paginate(5);
-        return view('product.trash',[
-            'product' => $product, 
+            ->whereNotNull('deleted_at')
+            ->paginate(5);
+        return view('product.trash', [
+            'product' => $product,
         ]);
     }
     public function restore($id)
     {
         Product::withTrashed()
-        ->where('id', $id)
-        ->restore();
+            ->where('id', $id)
+            ->restore();
         return redirect()->route('product.trash');
     }
     public function deleteTrasher($id)
     {
         Product::withTrashed()
-        ->where('id', $id)
-        ->forceDelete();
+            ->where('id', $id)
+            ->forceDelete();
         return redirect()->route('product.trash');
     }
 
@@ -92,8 +92,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('product.edit',[
-            'product' => $product, 
+        return view('product.edit', [
+            'product' => $product,
         ]);
     }
 
@@ -118,7 +118,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product ->forceDelete();
+        $product->forceDelete();
         return redirect()->route('product.index');
     }
 }
