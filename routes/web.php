@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,3 +19,8 @@ Route::group(["prefix" => 'product', "as" => "product."], function () {
     Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('edit');
     Route::put('/edit/{product}', [ProductController::class, 'update'])->name('update');
 });
+
+Route::get('/login', [AccountController::class, 'login'])->name('login');
+Route::get('/register', [AccountController::class, 'register'])->name('register');
+Route::post('/createUser', [AccountController::class, 'createUser'])->name('createUser');
+Route::post('/loginUser', [AccountController::class, 'loginUser'])->name('loginUser');
