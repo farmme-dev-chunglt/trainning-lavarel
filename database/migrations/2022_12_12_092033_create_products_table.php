@@ -13,12 +13,13 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id()->unique();
+            $table->id();
             $table->string('name');
-            $table->string('title');
+            $table->string('description');
             $table->double('price');
-            $table->double('discount');
+            $table->double('discount')->default(0);
             $table->string('imgUrl');
+            $table->string('slug')->nullable();
             $table->softDeletes();
         });
     }

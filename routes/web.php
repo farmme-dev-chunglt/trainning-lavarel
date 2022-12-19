@@ -14,10 +14,10 @@ Route::group(["prefix" => 'product', "as" => "product."], function () {
     Route::get('/deleteTrasher/{id}', [ProductController::class, 'deleteTrasher'])->name('deleteTrasher');
     Route::get('/create', [ProductController::class, 'create'])->name('create');
     Route::post('/create', [ProductController::class, 'store'])->name('store');
-    Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('destroy');
-    Route::delete('/softDestroy/{product}', [ProductController::class, 'softDestroy'])->name('softDestroy');
+    Route::delete('/destroy/{slug}', [ProductController::class, 'destroy'])->name('destroy');
+    Route::delete('/softDestroy/{slug}', [ProductController::class, 'softDestroy'])->name('softDestroy');
     Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('edit');
-    Route::put('/edit/{product}', [ProductController::class, 'update'])->name('update');
+    Route::put('/edit/{slug}', [ProductController::class, 'update'])->name('update');
 });
 
 Route::get('/login', [AccountController::class, 'login'])->name('login');

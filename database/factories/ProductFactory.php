@@ -20,10 +20,10 @@ class ProductFactory extends Factory
     {
         return [
             'name' => fake()->unique()->name,
-            'title' => fake()->title,
+            'description' => fake()->description,
             'imgUrl' => 'img1',
             'price' => rand(10, 100),
-            'discount' => rand(0, 10),
+            'discount' => 0,
         ];
     }
 }
