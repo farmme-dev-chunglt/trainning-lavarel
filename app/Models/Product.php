@@ -10,21 +10,21 @@ use App\Models\IdGenerator;
 use Carbon\Carbon;
 class Product extends Model
 {
-  use SoftDeletes;
-  public $timestamps = false;
-  protected $fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
-  use HasFactory;
-  protected static function boot()
-  {
-    parent::boot();
+    use HasFactory;
+    use SoftDeletes;
+    public $timestamps = false;
+    protected $fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
+    protected static function boot()
+    {
+        parent::boot();
 
-    static::created(function ($obj) {
-      $obj->slug = Carbon::now()->day . '000' . $obj->id;
-      $obj->save();
-    });
-  }
-  public static function findProductBySlug($slug)
-  {
-      return Product::where('slug', $slug)->first();
-  }
+        static::created(function ($obj) {
+            $obj->slug = Carbon::now()->day . '000' . $obj->id;
+            $obj->save();
+        });
+    }
+    public static function findProductBySlug($slug)
+    {
+        return Product::where('slug', $slug)->first();
+    }
 }
