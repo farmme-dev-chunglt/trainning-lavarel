@@ -26,8 +26,7 @@ class ProductController extends Controller
   {
     $product = Product::findProductBySlug($slug);
     if (empty($product)) {
-      $message_err = 'err';
-      return redirect()->route('product.index', $message_err);
+      return redirect()->route('product.index', 'err');
     }
     $product->delete();
     return redirect()->route('product.index');
@@ -113,8 +112,7 @@ class ProductController extends Controller
   {
     $product = Product::findProductBySlug($slug);
     if (empty($product)) {
-      $message_err = 'err';
-      return redirect()->route('product.index', $message_err);
+      return redirect()->route('product.index', 'err');
     }
     $product->update($request->only(['name', 'description', 'price', 'discount', 'imgUrl']));
     return redirect()->route('product.index');
@@ -130,8 +128,7 @@ class ProductController extends Controller
   {
     $product = Product::findProductBySlug($slug);
     if (empty($product)) {
-      $message_err = 'can not find product';
-      return redirect()->route('product.index', $message_err);
+      return redirect()->route('product.index', 'can not find product');
     }
     $product->forceDelete();
     return redirect()->route('product.index');
