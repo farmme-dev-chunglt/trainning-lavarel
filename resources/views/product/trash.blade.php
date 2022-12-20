@@ -43,10 +43,12 @@
                                 <th>{{ $item->price }}</th>
                                 <th>{{ $item->discount }}</th>
                                 <th>
-                                    <a class='btn btn-info btn-block btn-flat' href="{{ route('product.restore', $item->id) }}">restore</a>
+                                    <a class='btn btn-info btn-block btn-flat'
+                                        href="{{ route('product.restore', $item->id) }}">restore</a>
                                 </th>
                                 <th>
-                                    <a class='btn btn-block btn-danger' href="{{ route('product.deleteTrasher', $item->id) }}">delete</a>
+                                    <a class='btn btn-block btn-danger'
+                                        href="{{ route('product.deleteTrasher', $item->id) }}">delete</a>
                                 </th>
                             </tr>
                         @endforeach

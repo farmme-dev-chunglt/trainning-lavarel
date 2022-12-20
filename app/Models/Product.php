@@ -12,7 +12,8 @@ class Product extends Model
     use SoftDeletes;
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
+    protected $_fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
+
     protected static function _boot()
     {
         parent::boot();
@@ -22,6 +23,7 @@ class Product extends Model
             $obj->save();
         });
     }
+
     public static function findProductBySlug($slug)
     {
         return Product::where('slug', $slug)->first();

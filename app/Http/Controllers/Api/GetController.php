@@ -32,6 +32,7 @@ class GetController extends BaseController
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
+
   public function store(Request $request)
   {
     $validator = Validator::make($request->all(), [
@@ -56,6 +57,7 @@ class GetController extends BaseController
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
+
   public function show($id)
   {
     //
@@ -68,6 +70,7 @@ class GetController extends BaseController
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
+
   public function update(Request $request, $id)
   {
     $product = Product::find($id);
@@ -84,6 +87,7 @@ class GetController extends BaseController
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
+  
   public function destroy(Request $request, Product $product)
   {
     $product->delete();

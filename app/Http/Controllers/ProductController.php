@@ -15,6 +15,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $product = Product::paginate(5);
@@ -22,6 +23,7 @@ class ProductController extends Controller
             'product' => $product,
         ]);
     }
+	
     public function softDestroy($slug)
     {
         $product = Product::findProductBySlug($slug);
@@ -31,6 +33,7 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('product.index');
     }
+
     public function trash()
     {
         $product = Product::withTrashed()
@@ -40,6 +43,7 @@ class ProductController extends Controller
             'product' => $product,
         ]);
     }
+
     public function restore($id)
     {
         Product::withTrashed()
@@ -47,6 +51,7 @@ class ProductController extends Controller
             ->restore();
         return redirect()->route('product.trash');
     }
+
     public function deleteTrasher($id)
     {
         Product::withTrashed()
@@ -60,6 +65,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+	
     public function create()
     {
         return view('product.form');
@@ -71,6 +77,7 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(StoreRequest $request)
     {
         Product::create($request->only(['name', 'description', 'price', 'discount', 'imgUrl']));
@@ -83,6 +90,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
+
     public function show(Product $product)
     {
         //
@@ -94,6 +102,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
+
     public function edit(Product $product)
     {
         return view('product.form', [
@@ -108,6 +117,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
+
     public function update(StoreRequest $request, $slug)
     {
         $product = Product::findProductBySlug($slug);
@@ -124,6 +134,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($slug)
     {
         $product = Product::findProductBySlug($slug);
