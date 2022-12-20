@@ -1,3 +1,17 @@
+<script src="{{ asset("vendor/jquery/jquery.min.js") }}"></script>
+<script src="{{ asset("vendor/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+<script src="{{ asset("vendor/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+<script src="{{ asset("vendor/adminlte/dist/js/adminlte.js?v=3.2.0") }}"></script>
+<script src="{{ asset("vendor/adminlte/dist/js/demo.js") }}"></script>
+<script src="{{ asset("vendor/adminlte/dist/js/demo.js") }}"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+<link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link  rel="stylesheet" href="{{ asset("vendor/adminlte/dist/css/adminlte.min.css?v=3.2.0") }}">
+
 <div class="wrapper">
   <div class="preloader flex-column justify-content-center align-items-center" style="height: 0px;">
     <img src="http://127.0.0.1:8000/vendor/adminlte/dist/img/AdminLTELogo.png" class="animation__shake" alt="AdminLTE Preloader Image" width="60" height="60" style="display: none;">
@@ -130,16 +144,3 @@
   </div>
   <div id="sidebar-overlay"></div>
 </div>
-<script src="{{ asset("vendor/jquery/jquery.min.js") }}"></script>
-<script src="{{ asset("vendor/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
-<script src="{{ asset("vendor/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
-<script src="{{ asset("vendor/adminlte/dist/js/adminlte.js?v=3.2.0") }}"></script>
-<script src="{{ asset("vendor/adminlte/dist/js/demo.js") }}"></script>
-<script src="{{ asset("vendor/adminlte/dist/js/demo.js") }}"></script>
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-
-<link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
-
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<link  rel="stylesheet" href="{{ asset("vendor/adminlte/dist/css/adminlte.min.css?v=3.2.0") }}">

@@ -22,6 +22,10 @@ return new class extends Migration {
             $table->string('slug')->nullable();
             $table->softDeletes();
         });
+        Schema::table('products', function (Blueprint $table) {
+            $table->index('slug');
+        });
+        
     }
 
     /**

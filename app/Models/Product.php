@@ -23,4 +23,8 @@ class Product extends Model
       $obj->save();
     });
   }
+  public static function findProductBySlug($slug)
+  {
+      return Product::where('slug', $slug)->first();
+  }
 }

@@ -24,8 +24,8 @@ class ProductController extends Controller
   }
   public function softDestroy($slug)
   {
-    $product = Product::where('slug', $slug)->first();
-    if (is_null($product)) {
+    $product = Product::findProductBySlug($slug);
+    if (empty($product)) {
       $message_err = 'err';
       return redirect()->route('product.index', $message_err);
     }
@@ -111,8 +111,8 @@ class ProductController extends Controller
    */
   public function update(StoreRequest $request, $slug)
   {
-    $product = Product::where('slug', $slug)->first();
-    if (is_null($product)) {
+    $product = Product::findProductBySlug($slug);
+    if (empty($product)) {
       $message_err = 'err';
       return redirect()->route('product.index', $message_err);
     }
@@ -128,8 +128,8 @@ class ProductController extends Controller
    */
   public function destroy($slug)
   {
-    $product = Product::where('slug', $slug)->first();
-    if (is_null($product)) {
+    $product = Product::findProductBySlug($slug);
+    if (empty($product)) {
       $message_err = 'can not find product';
       return redirect()->route('product.index', $message_err);
     }
