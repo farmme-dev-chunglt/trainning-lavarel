@@ -71,7 +71,7 @@ class GetController extends BaseController
         if (empty($product)) {
             return response()->json('not found');
         }
-        $data = $request->all(['name', 'description', 'price', 'discount', 'imgUrl']);
+        $data = $request->only(['name', 'description', 'price', 'discount', 'imgUrl']);
         $validator = Product::validate($data);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
@@ -86,13 +86,6 @@ class GetController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-    public function destroy(Request $request, Product $product)
-    {
-        dd(empty($product));
-        $product->delete();
-        return response()->json('success');
-    }
 
     public function softDestroy(Request $request, $slug)
     {

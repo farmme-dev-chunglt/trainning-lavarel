@@ -131,17 +131,6 @@ Object.keys(AllRules).forEach((rule) => {
 <script>
 export default {
   props: ['dataProps', 'typeButton'],
-  data() {
-    return {
-      dataProducts: {
-        name: '',
-        description: '',
-        price: '',
-        discount: '',
-        imgUrl: ''
-      }
-    }
-  },
   methods: {
     submit(slug) {
       if (this.$props.typeButton === 'edit') {
