@@ -149,7 +149,7 @@
       </div>
     </aside>
     <div class="content-wrapper" style="min-height: 952px;">
-      <router-view></router-view>
+      <slot />
     </div>
     <div id="sidebar-overlay"></div>
   </div>
