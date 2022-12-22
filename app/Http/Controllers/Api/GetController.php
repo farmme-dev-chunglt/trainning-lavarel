@@ -113,17 +113,21 @@ class GetController extends BaseController
 
     public function restore($slug)
     {
-        Product::withTrashed()
-            ->where('slug', $slug)
-            ->restore();
-        return response()->json(['message' => 'success']);
+        if (Product::findTrashedBySlug($slug)->restore()) {
+            return response()->json(['message' => 'success']);
+        } else {
+            return response()->json(['message' => 'err']);
+        }
+
     }
 
     public function deleteTrasher($slug)
     {
-        Product::withTrashed()
-            ->where('slug', $slug)
-            ->forceDelete();
-        return response()->json(['message' => 'success']);
+        if (Product::findTrashedBySlug($slug)->forceDelete()) {
+            return response()->json(['message' => 'success']);
+        } else {
+            return response()->json(['message' => 'err']);
+        }
+
     }
 }

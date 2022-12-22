@@ -30,6 +30,12 @@ class Product extends Model
         return Product::where('slug', $slug)->first();
     }
 
+    public static function findTrashedBySlug($slug)
+    {
+        return Product::withTrashed()->where('slug', $slug);
+
+    }
+
     public static function validate($data)
     {
         return Validator::make($data, [

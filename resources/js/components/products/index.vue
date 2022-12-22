@@ -174,6 +174,7 @@ export default {
     accept() {
       this.axios.delete(`softDelete/${this.itemDelete}`).then((res) => {
         this.loadData()
+        $('#modal-default').modal('hide')
       })
     },
     selectItem(slug) {
