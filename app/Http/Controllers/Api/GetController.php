@@ -5,92 +5,132 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseController;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Validator;
 
 class GetController extends BaseController
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function index()
-  {
-    $listProduct = Product::paginate(10);
-    return response()->json([
-      'data' => $listProduct->items(),
-      'current_page' => $listProduct->currentPage(),
-      'last_page' => $listProduct->lastPage(),
-      'per_page' => $listProduct->perPage(),
-      'total' => $listProduct->total(),
-    ]);
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-
-  public function store(Request $request)
-  {
-    $validator = Validator::make($request->all(), [
-      'name' => 'required',
-    ]);
-    if ($validator->fails()) {
-      return $this->sendError('Validation Error.', $validator->errors());
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $listProduct = Product::paginate(5);
+        return response()->json([
+            'data' => $listProduct->items(),
+            'current_page' => $listProduct->currentPage(),
+            'last_page' => $listProduct->lastPage(),
+            'per_page' => $listProduct->perPage(),
+            'total' => $listProduct->total(),
+        ]);
     }
-    $newProduct = Product::create($request->all());
-    return response()->json(
-      (object) [
-        'message' => 'we receive your request',
-        'data' => $newProduct,
-        201,
-      ]
-    );
-  }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 
-  public function show($id)
-  {
-    //
-  }
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-
-  public function update(Request $request, $id)
-  {
-    $product = Product::find($id);
-    if (is_null($product)) {
-      return response()->json('error');
+    public function store(Request $request)
+    {
+        $data = $request->only(['name', 'description', 'price', 'discount', 'imgUrl']);
+        $validator = Product::validate($data);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+            // response()->json(['message' => 'we receive your request']);
+        }
+        Product::create($data);
+        return response()->json(['message' => 'we receive your request', 201]
+        );
     }
-    $product->update($request->all());
-    return response()->json($product);
-  }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  
-  public function destroy(Request $request, Product $product)
-  {
-    $product->delete();
-    return response()->json('susccess');
-  }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function update(Request $request, $slug)
+    {
+        $product = Product::findProductBySlug($slug);
+        if (empty($product)) {
+            return response()->json('not found');
+        }
+        $data = $request->all(['name', 'description', 'price', 'discount', 'imgUrl']);
+        $validator = Product::validate($data);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $product->update($data);
+        return response()->json('success');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function destroy(Request $request, Product $product)
+    {
+        dd(empty($product));
+        $product->delete();
+        return response()->json('success');
+    }
+
+    public function softDestroy(Request $request, $slug)
+    {
+        $product = Product::findProductBySlug($slug);
+        if (empty($product)) {
+            return response()->json('not found');
+        }
+        $product->delete();
+        return response()->json('success');
+    }
+
+    public function trash()
+    {
+        $product = Product::withTrashed()
+            ->whereNotNull('deleted_at')
+            ->paginate(5);
+        return response()->json([
+            'data' => $product->items(),
+            'current_page' => $product->currentPage(),
+            'last_page' => $product->lastPage(),
+            'per_page' => $product->perPage(),
+            'total' => $product->total(),
+        ]);
+    }
+
+    public function restore($slug)
+    {
+        Product::withTrashed()
+            ->where('slug', $slug)
+            ->restore();
+        return response()->json(['message' => 'success']);
+    }
+
+    public function deleteTrasher($slug)
+    {
+        Product::withTrashed()
+            ->where('slug', $slug)
+            ->forceDelete();
+        return response()->json(['message' => 'success']);
+    }
 }

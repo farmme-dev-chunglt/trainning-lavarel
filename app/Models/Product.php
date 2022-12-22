@@ -6,15 +6,16 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Validator;
 
 class Product extends Model
 {
     use SoftDeletes;
     use HasFactory;
     public $timestamps = false;
-    protected $_fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
+    protected $fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
 
-    protected static function _boot()
+    protected static function boot()
     {
         parent::boot();
 
@@ -27,5 +28,16 @@ class Product extends Model
     public static function findProductBySlug($slug)
     {
         return Product::where('slug', $slug)->first();
+    }
+
+    public static function validate($data)
+    {
+        return Validator::make($data, [
+            'name' => 'bail|required',
+            'description' => 'bail|required|max:500',
+            'price' => 'bail|required|numeric',
+            'discount' => 'bail|required|numeric',
+            'imgUrl' => 'bail|required',
+        ]);
     }
 }
