@@ -81,14 +81,17 @@ class AccountController extends Controller
      * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\Response
      */
+
     public function destroy(Account $account)
     {
         //
     }
+
     public function login()
     {
         return view('auth.login');
     }
+
     public function loginUser(Request $request)
     {
         $login = [
@@ -108,10 +111,12 @@ class AccountController extends Controller
         }
         return back()->with('err');
     }
+
     public function register()
     {
         return view('auth.register');
     }
+    
     public function createUser(Request $request)
     {
         $validator = Validator::make($request->all(),[

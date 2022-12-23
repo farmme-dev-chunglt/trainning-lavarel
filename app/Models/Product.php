@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use App\Models\IdGenerator;
-use Carbon\Carbon;
+
 class Product extends Model
 {
-    use HasFactory;
     use SoftDeletes;
+    use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
-    protected static function boot()
+    protected $_fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
+
+    protected static function _boot()
     {
         parent::boot();
 
@@ -23,6 +23,7 @@ class Product extends Model
             $obj->save();
         });
     }
+
     public static function findProductBySlug($slug)
     {
         return Product::where('slug', $slug)->first();

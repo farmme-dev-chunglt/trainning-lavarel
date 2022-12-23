@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
+    use HasFactory;
+
     public $timestamps = false;
+    
     protected $fillable = [
         'account',
         'password',
     ];
-    use HasFactory;
 }

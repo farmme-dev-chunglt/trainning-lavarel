@@ -1,29 +1,38 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\Product\StoreRequest;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\Product\StoreRequest;
 
-class ProductController extends Controller
+class AjaxProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function index()
+    public function index(Request $request)
     {
         $product = Product::paginate(5);
-        return view('product.index', [
-            'product' => $product,
-        ]);
+        if ($request->ajax()) {
+            $data = Book::latest()->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+   
+                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editBook">Edit</a>';
+   
+                           $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteBook">Delete</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+      
+        return view('book',compact('books'));
     }
-	
     public function softDestroy($slug)
     {
         $product = Product::findProductBySlug($slug);
@@ -33,7 +42,6 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('product.index');
     }
-
     public function trash()
     {
         $product = Product::withTrashed()
@@ -43,7 +51,6 @@ class ProductController extends Controller
             'product' => $product,
         ]);
     }
-
     public function restore($id)
     {
         Product::withTrashed()
@@ -51,7 +58,6 @@ class ProductController extends Controller
             ->restore();
         return redirect()->route('product.trash');
     }
-
     public function deleteTrasher($id)
     {
         Product::withTrashed()
@@ -59,13 +65,12 @@ class ProductController extends Controller
             ->forceDelete();
         return redirect()->route('product.trash');
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    
     public function create()
     {
         return view('product.create');
@@ -77,7 +82,6 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    
     public function store(StoreRequest $request)
     {
         Product::create($request->only(['name', 'description', 'price', 'discount', 'imgUrl']));
@@ -131,13 +135,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    
     public function destroy($slug)
     {
         $product = Product::findProductBySlug($slug);
         if (empty($product)) {
             return redirect()->route('product.index', 'can not find product');
         }
+
         $product->forceDelete();
         return redirect()->route('product.index');
     }
