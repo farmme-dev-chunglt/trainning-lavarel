@@ -16,9 +16,15 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('account')->unique();
-            $table->string('password')->unique();
+            $table->string('password');
             $table->rememberToken();
             
+        });
+        Schema::table('accounts', function ($table) {
+            $table->string('api_token', 80)->after('password')
+                                ->unique()
+                                ->nullable()
+                                ->default(null);
         });
     }
 

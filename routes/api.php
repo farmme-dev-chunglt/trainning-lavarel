@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\GetController;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['prefix' => 'v1/', 'as' => 'product.'], function () {
+Route::group(['prefix' => 'v1/','middleware' => ['auth:sanctum']], function () {
     Route::get('/getProduct', [GetController::class, 'index']);
     Route::get('/getTrash', [GetController::class, 'trash']);
     Route::post('/createProduct', [GetController::class, 'store']);
@@ -16,4 +17,7 @@ Route::group(['prefix' => 'v1/', 'as' => 'product.'], function () {
     Route::delete('/softDelete/{slug}', [GetController::class, 'softDestroy']);
     Route::get('/restore/{slug}', [GetController::class, 'restore']);
     Route::get('/deleteTrash/{slug}', [GetController::class, 'deleteTrasher']);
+    
 });
+Route::post('/auth/register', [AuthController::class, 'createUser']);
+Route::post('/auth/login', [AuthController::class, 'loginUser'])->name('login');

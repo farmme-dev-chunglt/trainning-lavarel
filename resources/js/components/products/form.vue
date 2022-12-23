@@ -119,15 +119,6 @@
     </div>
   </div>
 </template>
-<script setup>
-import { Form, Field } from 'vee-validate'
-import AllRules from '@vee-validate/rules'
-import { defineRule } from 'vee-validate'
-
-Object.keys(AllRules).forEach((rule) => {
-  defineRule(rule, AllRules[rule])
-})
-</script>
 <script>
 export default {
   props: ['dataProps', 'typeButton'],
