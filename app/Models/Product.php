@@ -12,9 +12,9 @@ class Product extends Model
     use SoftDeletes;
     use HasFactory;
     public $timestamps = false;
-    protected $_fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
+    protected $fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
 
-    protected static function _boot()
+    protected static function boot()
     {
         parent::boot();
 
