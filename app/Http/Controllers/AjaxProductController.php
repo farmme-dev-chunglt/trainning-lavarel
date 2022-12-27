@@ -54,8 +54,14 @@ class AjaxProductController extends Controller
     public function store(Request $request)
     {
         Product::updateOrCreate([
-            'slug' => $request->slug,
-        ], $request->only(['name', 'description', 'price', 'discount', 'imgUrl']));
+            'id' => $request->id,
+        ],[
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'discount' => $request->discount,
+            'imgUrl' => $request->imgUrl,
+        ]);
         return response()->json('successful');
     }
 

@@ -18,7 +18,7 @@ class Product extends Model
     {
         parent::boot();
 
-        static::created(function ($obj) {
+        static::creating(function ($obj) {
             $obj->slug = Carbon::now()->day . '000' . $obj->id;
             $obj->save();
         });

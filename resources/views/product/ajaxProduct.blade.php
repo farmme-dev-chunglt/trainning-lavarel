@@ -14,6 +14,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
         var table = $('.dataTable').DataTable({
             processing: true,
             serverSide: true,
@@ -46,6 +47,7 @@
                 },
             ]
         });
+
         $('#createNewProduct').click(function() {
             $('#name').val('');
             $('#description').val('');
@@ -55,25 +57,51 @@
         });
 
         $('#saveBtn').click(function(e) {
-            e.preventDefault();
-            $(this).html('Sending..');
+            // e.preventDefault();
+            $("#bookForm").validate({
+                rules: {
+                    name: "required",
+                    password: {
+                        required: true,
+                        minlength: 6
+                    },
+                    price: "required",
+                    imgUrl: "required",
+                    discount: "required",
+                    description: "required"
 
-            $.ajax({
-                data: $('#bookForm').serialize(),
-                url: "{{ route('ajax.store') }}",
-                type: "POST",
-                dataType: 'json',
-                success: function(data) {
-                    $('#productForm').trigger("reset");
-                    $('#form').modal('hide');
-                    $('.modal-backdrop').hide();
-                    table.draw();
                 },
-                error: function(data) {
-                    console.log('Error:', data);
-                    $('#saveBtn').html('Save Changes');
+                messages: {
+                    name: "Please enter your Name",
+                    description: "Please enter your description",
+                    price: "Please enter your price",
+                    discount: "Please enter your discount",
+                    imgUrl: "Please enter your imgUrl",
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 6 characters long"
+                    },
+                },
+                submitHandler: function(form) {
+                    $.ajax({
+                        data: $('#bookForm').serialize(),
+                        url: "{{ route('ajax.store') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#productForm').trigger("reset");
+                            $('#form').modal('hide');
+                            $('.modal-backdrop').hide();
+                            table.draw();
+                        },
+                        error: function(data) {
+                            console.log('Error:', data);
+                            $('#saveBtn').html('Save Changes');
+                        }
+                    });
                 }
             });
+
         });
 
         $('body').on('click', '.deleteProduct', function() {
@@ -93,10 +121,11 @@
                 }
             });
         });
+
         $('body').on('click', '.edit', function() {
-            let ajax = $(this).attr("data-id");
-            let url = '{{ route('ajaxGetItemEdit', ':ajax') }}';
-            url = url.replace(':ajax', ajax);
+            let slug = $(this).attr("data-id");
+            let url = '{{ route('ajaxGetItemEdit', ':slug') }}';
+            url = url.replace(':slug', slug);
             $.ajax({
                 type: "get",
                 url: url,

@@ -67,14 +67,14 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">price</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="price" name="price"
+                                <input type="number" class="form-control" id="price" name="price"
                                     placeholder="Enter Title" value="" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">discount</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="discount" name="discount"
+                                <input type="number" class="form-control" id="discount" name="discount"
                                     placeholder="Enter Title" value="" required>
                             </div>
                         </div>
