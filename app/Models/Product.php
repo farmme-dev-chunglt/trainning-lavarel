@@ -39,10 +39,10 @@ class Product extends Model
     public static function validate($data)
     {
         return Validator::make($data, [
-            'name' => 'bail|required',
-            'description' => 'bail|required|max:500',
-            'price' => 'bail|required|numeric',
-            'discount' => 'bail|required|numeric',
+            'name' => 'bail|required|string|min:6|max:100',
+            'description' => 'bail|required|string|min:6|max:512',
+            'price' => 'bail|required|numeric|min:0',
+            'discount' => 'bail|nullable|numeric|min:0|max:100',
             'imgUrl' => 'bail|required',
         ]);
     }

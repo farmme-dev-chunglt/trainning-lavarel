@@ -6,31 +6,21 @@ use App\Http\Controllers\Api\BaseController;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class GetController extends BaseController
+class ApiProductController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $listProduct = Product::paginate(5);
-        return response()->json([
+        $result = [
             'data' => $listProduct->items(),
             'current_page' => $listProduct->currentPage(),
             'last_page' => $listProduct->lastPage(),
             'per_page' => $listProduct->perPage(),
             'total' => $listProduct->total(),
-        ]);
+        ];
+        return $this->sendResponse($result,'success');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
 
     public function store(Request $request)
     {
@@ -41,35 +31,20 @@ class GetController extends BaseController
             // response()->json(['message' => 'we receive your request']);
         }
         Product::create($data);
-        return response()->json(['message' => 'we receive your request', 201]
-        );
-    }
+        return $this->sendResponse([],'we receive your request');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    }
 
     public function show($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
     public function update(Request $request, $slug)
     {
         $product = Product::findProductBySlug($slug);
         if (empty($product)) {
-            return response()->json('not found');
+            return $this->sendError('not found.');
         }
         $data = $request->only(['name', 'description', 'price', 'discount', 'imgUrl']);
         $validator = Product::validate($data);
@@ -77,24 +52,18 @@ class GetController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
         $product->update($data);
-        return response()->json('success');
-    }
+        return $this->sendResponse([],'success');
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    }
 
     public function softDestroy(Request $request, $slug)
     {
         $product = Product::findProductBySlug($slug);
         if (empty($product)) {
-            return response()->json('not found');
+            return $this->sendError('not found.');
         }
         $product->delete();
-        return response()->json('success');
+        return $this->sendResponse([] ,'success');
     }
 
     public function trash()
@@ -102,21 +71,22 @@ class GetController extends BaseController
         $product = Product::withTrashed()
             ->whereNotNull('deleted_at')
             ->paginate(5);
-        return response()->json([
+        $result = [
             'data' => $product->items(),
             'current_page' => $product->currentPage(),
             'last_page' => $product->lastPage(),
             'per_page' => $product->perPage(),
             'total' => $product->total(),
-        ]);
+        ];
+        return $this->sendResponse($result,'success');
     }
 
     public function restore($slug)
     {
         if (Product::findTrashedBySlug($slug)->restore()) {
-            return response()->json(['message' => 'success']);
+            return $this->sendError('not found.');
         } else {
-            return response()->json(['message' => 'err']);
+            return $this->sendResponse([],'success');
         }
 
     }
@@ -124,9 +94,9 @@ class GetController extends BaseController
     public function deleteTrasher($slug)
     {
         if (Product::findTrashedBySlug($slug)->forceDelete()) {
-            return response()->json(['message' => 'success']);
+            return $this->sendError('not found.');
         } else {
-            return response()->json(['message' => 'err']);
+            return $this->sendResponse([],'success');
         }
 
     }
