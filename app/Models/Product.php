@@ -12,13 +12,13 @@ class Product extends Model
     use SoftDeletes;
     use HasFactory;
     public $timestamps = false;
-    protected $_fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
+    protected $fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
 
-    protected static function _boot()
+    protected static function boot()
     {
         parent::boot();
 
-        static::created(function ($obj) {
+        static::creating(function ($obj) {
             $obj->slug = Carbon::now()->day . '000' . $obj->id;
             $obj->save();
         });

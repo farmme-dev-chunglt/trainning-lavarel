@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AjaxProductController;
 use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,9 @@ Route::group(["prefix" => 'product', "as" => "product."], function () {
     Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('edit');
     Route::put('/edit/{slug}', [ProductController::class, 'update'])->name('update');
 });
+
+Route::resource('ajax', AjaxProductController::class);
+Route::get('/edit/{slug}', [AjaxProductController::class, 'getProductEdit'])->name('ajaxGetItemEdit');
 
 Route::get('/login', [AccountController::class, 'login'])->name('login');
 Route::get('/register', [AccountController::class, 'register'])->name('register');
