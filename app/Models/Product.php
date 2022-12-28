@@ -6,34 +6,31 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Validator;
 
 class Product extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    use Sluggable;
+    use SluggableScopeHelpers;
+
     public $timestamps = false;
     protected $fillable = ['name', 'description', 'price', 'discount', 'imgUrl'];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::created(function ($obj) {
-            $obj->slug = Carbon::now()->day . '000' . $obj->id;
-            $obj->save();
-        });
-    }
-
-    public static function findProductBySlug($slug)
-    {
-        return Product::where('slug', $slug)->first();
-    }
-
     public static function findTrashedBySlug($slug)
     {
-        return Product::withTrashed()->where('slug', $slug);
-
+        return Product::withTrashed()->whereSlug($slug);
+    }
+        public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
     }
 
     public static function validate($data)

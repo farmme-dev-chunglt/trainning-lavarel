@@ -18,7 +18,7 @@ class ApiProductController extends BaseController
             'per_page' => $listProduct->perPage(),
             'total' => $listProduct->total(),
         ];
-        return $this->sendResponse($result,'success');
+        return $this->sendResponse($result, 'success');
     }
 
 
@@ -28,10 +28,10 @@ class ApiProductController extends BaseController
         $validator = Product::validate($data);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
-            // response()->json(['message' => 'we receive your request']);
         }
         Product::create($data);
-        return $this->sendResponse([],'we receive your request');
+
+        return $this->sendResponse([], 'we receive your request');
 
     }
 
@@ -42,7 +42,7 @@ class ApiProductController extends BaseController
 
     public function update(Request $request, $slug)
     {
-        $product = Product::findProductBySlug($slug);
+        $product = Product::findBySlug($slug);
         if (empty($product)) {
             return $this->sendError('not found.');
         }
@@ -52,18 +52,19 @@ class ApiProductController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
         $product->update($data);
-        return $this->sendResponse([],'success');
+        return $this->sendResponse([], 'success');
 
     }
 
     public function softDestroy(Request $request, $slug)
     {
-        $product = Product::findProductBySlug($slug);
+
+        $product = Product::findBySlug($slug);
         if (empty($product)) {
             return $this->sendError('not found.');
         }
         $product->delete();
-        return $this->sendResponse([] ,'success');
+        return $this->sendResponse([], 'success');
     }
 
     public function trash()
@@ -78,13 +79,13 @@ class ApiProductController extends BaseController
             'per_page' => $product->perPage(),
             'total' => $product->total(),
         ];
-        return $this->sendResponse($result,'success');
+        return $this->sendResponse($result, 'success');
     }
 
     public function restore($slug)
     {
         if (Product::findTrashedBySlug($slug)->restore()) {
-            return $this->sendResponse([],'success');
+            return $this->sendResponse([], 'success');
         } else {
             return $this->sendError('not found.');
         }
@@ -94,7 +95,7 @@ class ApiProductController extends BaseController
     public function deleteTrasher($slug)
     {
         if (Product::findTrashedBySlug($slug)->forceDelete()) {
-            return $this->sendResponse([],'success');
+            return $this->sendResponse([], 'success');
         } else {
             return $this->sendError('not found.');
         }

@@ -19,13 +19,13 @@ return new class extends Migration {
             $table->double('price');
             $table->double('discount')->default(0);
             $table->string('imgUrl');
-            $table->string('slug')->nullable();
+            $table->string('slug')->nullable()->unique();
             $table->softDeletes();
         });
         Schema::table('products', function (Blueprint $table) {
             $table->index('slug');
         });
-        
+
     }
 
     /**
