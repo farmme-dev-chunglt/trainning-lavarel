@@ -45,7 +45,7 @@
                           aria-describedby="exampleInputEmail1-error"
                           aria-invalid="true"
                           v-model="dataProps.description"
-                          :rules="{ required: true, min: 6, max: 512 }"
+                          :rules="{ required: true, min: 6,max: 512 }"
                         />
                         <span id="exampleInputEmail1-error" class="error">
                           {{ errors.description }}
