@@ -20,9 +20,9 @@
             serverSide: true,
             ajax: "{{ route('ajax.index') }}",
             columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
+                data: 'id',
+                name: 'id'
+            },
                 {
                     data: 'name',
                     name: 'name'
@@ -57,13 +57,18 @@
         });
 
         $('#saveBtn').click(function(e) {
-            // e.preventDefault();
+            e.preventDefault();
             $("#bookForm").validate({
                 rules: {
-                    name: "required",
-                    password: {
-                        required: true,
-                        minlength: 6
+                    name: {
+                        required:true,
+                        minlength: 6,
+                        maxlength: 100
+                    },
+                    description: {
+                        required:true,
+                        minlength: 6,
+                        maxlength: 512
                     },
                     price: "required",
                     imgUrl: "required",
@@ -77,10 +82,6 @@
                     price: "Please enter your price",
                     discount: "Please enter your discount",
                     imgUrl: "Please enter your imgUrl",
-                    password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 6 characters long"
-                    },
                 },
                 submitHandler: function(form) {
                     $.ajax({
