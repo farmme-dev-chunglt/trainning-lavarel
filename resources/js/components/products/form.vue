@@ -28,7 +28,7 @@
                           aria-describedby="exampleInputEmail1-error"
                           aria-invalid="true"
                           v-model="dataProps.name"
-                          :rules="{ required: true }"
+                          :rules="{ required: true,min: 6,max: 100  }"
                         />
                         <span id="exampleInputEmail1-error" class="error">
                           {{ errors.name }}
@@ -45,7 +45,7 @@
                           aria-describedby="exampleInputEmail1-error"
                           aria-invalid="true"
                           v-model="dataProps.description"
-                          :rules="{ required: true }"
+                          :rules="{ required: true, min: 6, max: 512 }"
                         />
                         <span id="exampleInputEmail1-error" class="error">
                           {{ errors.description }}
@@ -62,7 +62,7 @@
                           aria-describedby="exampleInputEmail1-error"
                           aria-invalid="true"
                           v-model="dataProps.price"
-                          :rules="{ required: true }"
+                          :rules="{ required: true, min: 0 }"
                         />
                         <span id="exampleInputEmail1-error" class="error">
                           {{ errors.price }}
