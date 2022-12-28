@@ -57,7 +57,7 @@
         });
 
         $('#saveBtn').click(function(e) {
-            e.preventDefault();
+            // e.preventDefault();
             $("#bookForm").validate({
                 rules: {
                     name: {
@@ -83,7 +83,7 @@
                     discount: "Please enter your discount",
                     imgUrl: "Please enter your imgUrl",
                 },
-                submitHandler: function(form) {
+                submitHandler: function() {
                     $.ajax({
                         data: $('#bookForm').serialize(),
                         url: "{{ route('ajax.store') }}",
