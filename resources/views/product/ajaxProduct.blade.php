@@ -95,6 +95,8 @@
                             table.draw();
                         },
                         error: function(data) {
+                            $('#form').modal('hide');
+                            $('.modal-backdrop').hide();
                             console.log('Error:', data);
                             $('#saveBtn').html('Save Changes');
                         }
