@@ -168,8 +168,8 @@ export default {
   methods: {
     loadData() {
       this.axios.get(`getProduct?page=${this.pageActive}`).then((res) => {
-        this.pageCount = res.data.last_page
-        this.listProduct = res.data.data
+        this.pageCount = res.data.data.last_page
+        this.listProduct = res.data.data.data
         this.loading = true
       })
     },

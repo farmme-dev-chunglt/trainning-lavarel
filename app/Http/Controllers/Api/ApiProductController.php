@@ -84,9 +84,9 @@ class ApiProductController extends BaseController
     public function restore($slug)
     {
         if (Product::findTrashedBySlug($slug)->restore()) {
-            return $this->sendError('not found.');
-        } else {
             return $this->sendResponse([],'success');
+        } else {
+            return $this->sendError('not found.');
         }
 
     }
@@ -94,9 +94,9 @@ class ApiProductController extends BaseController
     public function deleteTrasher($slug)
     {
         if (Product::findTrashedBySlug($slug)->forceDelete()) {
-            return $this->sendError('not found.');
-        } else {
             return $this->sendResponse([],'success');
+        } else {
+            return $this->sendError('not found.');
         }
 
     }

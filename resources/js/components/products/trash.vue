@@ -147,8 +147,8 @@ export default {
   methods: {
     loadData() {
       this.axios.get('getTrash?page=1').then((res) => {
-        this.listProduct = res.data.data
-        this.pageCount = res.data.last_page
+        this.listProduct = res.data.data.data
+        this.pageCount = res.data.data.last_page
         this.loading = true
       })
     },
