@@ -19,5 +19,5 @@ Route::group(['prefix' => 'v1/','middleware' => ['auth:sanctum']], function () {
     Route::get('/deleteTrash/{slug}', [GetController::class, 'deleteTrasher']);
     
 });
-Route::post('/auth/register', [AuthController::class, 'createUser']);
-Route::post('/auth/login', [AuthController::class, 'loginUser'])->name('login');
+Route::post('v1/auth/register', [AuthController::class, 'createUser']);
+Route::post('v1/auth/login', [AuthController::class, 'loginUser'])->name('login');

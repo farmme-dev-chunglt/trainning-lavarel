@@ -59,6 +59,7 @@ class AuthController extends BaseController
             );     
         }
         $user=Account::where('account',$request->account)->first();
+        $user->tokens()->delete();
         return response()->json([
             'message' => 'login successful',
             'token'=> $user->createToken("Header")->plainTextToken
